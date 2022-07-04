@@ -143,6 +143,12 @@ contract Auction {
         emit AuctionCompleted(product.url, msg.sender);
     }
 
+    function fundSeller(string memory auctionId) external onlyOwner {
+        Product memory product = products[auctionId];
+        bool success = payable(product.seller).send(product.topBid);
+        require(success, "Transfer failed");
+    }
+
     function checkIfAuctionAllowed(Product memory product) private view {
         require(
             block.timestamp > product.startDate,
