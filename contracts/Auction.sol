@@ -102,7 +102,7 @@ contract Auction {
         }
         checkIfAuctionAllowed(product);
 
-        if (amount < product.initalPrice && amount < product.topBid) {
+        if (amount < product.initalPrice || amount < product.topBid) {
             revert BidTooSmall("Bid lesser than the current top bid");
         }
 
@@ -137,16 +137,15 @@ contract Auction {
             revert UnathorizedTransfer("Unauthorized access");
         }
 
-        bool success = payable(address(this)).send(product.topBid);
-        require(success, "Transfer failed");
+        require(product.topBid == msg.value);
+        payable(address(this)).transfer(product.topBid);
 
         emit AuctionCompleted(product.url, msg.sender);
     }
 
     function fundSeller(string memory auctionId) external onlyOwner {
         Product memory product = products[auctionId];
-        bool success = payable(product.seller).send(product.topBid);
-        require(success, "Transfer failed");
+        payable(product.seller).transfer(product.topBid);
     }
 
     function checkIfAuctionAllowed(Product memory product) private view {
@@ -156,4 +155,8 @@ contract Auction {
         );
         require(block.timestamp < product.endDate, "Auction is over");
     }
+
+    fallback() external payable {}
+
+    receive() external payable {}
 }
