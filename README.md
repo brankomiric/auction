@@ -1,8 +1,6 @@
-# Basic Sample Hardhat Project
+# Auction
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
-
-Try running some of the following tasks:
+### Hardhat commands:
 
 ```shell
 npx hardhat accounts
@@ -13,3 +11,27 @@ npx hardhat node
 node scripts/sample-script.js
 npx hardhat help
 ```
+
+## Usage:
+
+### Installing dependencies:
+```
+npm install
+```
+
+### Compiling Smart Contracts
+```
+npx hardhat compile
+```
+_ABIs and bytecodes are located in src/artifacts_
+
+### Deployment
+_Not implemented as it is not in the requirements_
+
+### Running Tests
+```
+npx hardhat test
+```
+
+### Note
+_Although deployment is not implemented yet, Hardhat config requires you to provide a private key. Place your private key in .env file at the root of the project. See .env.example_
